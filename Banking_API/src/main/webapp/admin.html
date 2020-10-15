@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Admin Page</title>
+</head>
+<body>
+<form action="Register" >
+<button onclick='register.html'>Register New User</button>
+</form>
+<form action="account" >
+<button onclick='account.html'>Accounts</button>
+</form>
+<div align ="center">
+<form action="admin" method="get"> 
+Search Users By 
+<select name="type">
+<option value =id>Id</option>
+<option value ="username">UserName</option>
+<option value ="fname">First Name</option>
+<option value ="lname">Last Name</option>
+</select>
+<br/>
+<input type="search" name=search placeholder="Enter the search value"/>
+
+<input type="submit" value="Search"/>
+<br/>
+<br/>
+</form>
+<form action="admin" method="get">
+<button name="type" type="submit" value="all">All Users</button>
+</form>
+<br/>
+
+</div>
+</body>
+</html>

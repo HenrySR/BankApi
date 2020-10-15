@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Accounts</title>
+</head>
+<body>
+<form action="withdraw" >
+<button onclick='withdraw' >Withdraw</button>
+</form>
+<form action="deposit" >
+<button onclick='deposit'>Deposit</button>
+</form>
+<form action="transfer" >
+<button onclick='transfer'>Transfer</button>
+</form>
+<div align ="center">
+<form action="account" method="get"> 
+
+Search Users By 
+<select name="type">
+<option value ="id">Account Id</option>
+<option value ="status">Account status</option>
+<option value ="UserId">User Id</option>
+</select>
+<br/>
+<input type="search" name=search placeholder="Enter the search value"/>
+<input type="submit" value="submit"/>
+<br/>
+<br/>
+
+</form>
+  
+<form action="account" method="get">
+<button name="type" type="submit" value="all">Show All Users</button>
+</form>
+
+<form action="account" method="post">
+<h1>New Account</h1>
+<input type="hidden" name="_method" value="post"/>
+Enter UserId<input type="text" name="userId" ><br/>
+Select Type<select name="atype">
+<option value ="Checking">Checking</option>
+<option value ="Savings">Savings</option>
+<br/>
+
+<input type="submit" value="New Account"></input>
+</form>
+
+<form action="account" method="post">
+<input type="hidden" name="_method" value="PUT"/>
+<h1>Update Account</h1>
+Enter Account Id<input type="text" name="id"><br/>
+Enter UserId<input type="text" name="userId" ><br/>
+Enter Balance<input type="text" name="balance" ><br/>
+Select Type<select name="btype">
+<option value ="Checking">Checking</option>
+<option value ="Savings">Savings</option>
+<br/>
+</select>
+Select Status
+<select name="status">
+<option value ="Pending">Pending</option>
+<option value ="Open">Open</option>
+<option value ="Closed">Closed</option>
+<option value ="Denied">Denied</option>
+</select>
+<br/>
+<input type="submit" value="Update Account"></input>
+</form>
+</div>
+</body>
+</html>

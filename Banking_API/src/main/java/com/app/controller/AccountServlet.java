@@ -113,7 +113,8 @@ public class AccountServlet extends HttpServlet {
 		AccountDAO account = new AccountDAOImpl();
 		RequestDispatcher requestDispatcher=null;
 		PrintWriter out = response.getWriter();
-		
+		requestDispatcher=request.getRequestDispatcher("account.html");
+		requestDispatcher.include(request, response);
 		try {
 			System.out.println(request.getParameter("atype"));
 			AccountType atype = new AccountType(request.getParameter("atype"));
@@ -122,8 +123,7 @@ public class AccountServlet extends HttpServlet {
 			
 			
 		} catch (BusinessException | NumberFormatException e) {
-			requestDispatcher=request.getRequestDispatcher("account.html");
-			requestDispatcher.include(request, response);
+			
 			out.print("<center><span style='color:red;'>"+e.getMessage()+"</span></center>");
 		}
 		

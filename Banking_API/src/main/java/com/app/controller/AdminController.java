@@ -168,12 +168,15 @@ public class AdminController extends HttpServlet {
 		if(user.getRole().getRoleId() ==1) {
 		requestDispatcher=request.getRequestDispatcher("standard.html");
 		requestDispatcher.include(request, response);}
+		if(user.getRole().getRoleId() ==2) {
+			requestDispatcher=request.getRequestDispatcher("admin.html");
+			requestDispatcher.include(request, response);}
 		if(user.getRole().getRoleId() ==3) {
 			requestDispatcher=request.getRequestDispatcher("admin.html");
 			requestDispatcher.include(request, response);}
 		try {
 			newUser.setUserId(user.getUserId());
-			if(user.getRole().getRoleId()!=1) {
+			if(user.getRole().getRoleId()==3) {
 				newUser.setUserId(Integer.parseInt(request.getParameter("userId")));
 			}
 			

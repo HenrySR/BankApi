@@ -45,6 +45,8 @@ public class RegisterServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		try {
+			requestDispatcher=request.getRequestDispatcher("Register.html");
+			requestDispatcher.include(request, response);
 			newUser.setUsername(request.getParameter("username"));
 			newUser.setPassword(request.getParameter("password"));
 			newUser.setFirstName(request.getParameter("fname"));
@@ -54,8 +56,7 @@ public class RegisterServlet extends HttpServlet {
 			newUser.setRole(role);
 			register.registerUser(newUser);
 		} catch (BusinessException | NumberFormatException e) {
-			requestDispatcher=request.getRequestDispatcher("Register.html");
-			requestDispatcher.include(request, response);
+			
 			out.print("<center><span style='color:red;'>"+e.getMessage()+"</span></center>");
 		}
 		

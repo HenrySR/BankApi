@@ -45,7 +45,12 @@ public class LoginController extends HttpServlet {
 			if(service.isValidUser(user)) {
 				HttpSession session=request.getSession();
 				session.setAttribute("user", user);
+				if(user.getRole().getRoleId()==1) {
+					response.sendRedirect("standard.html");
+				}
+				else {
 				response.sendRedirect("admin.html");
+				}
 			}
 		} catch (BusinessException e) {
 			requestDispatcher=request.getRequestDispatcher("login.html");

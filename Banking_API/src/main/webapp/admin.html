@@ -11,6 +11,11 @@
 <form action="account" >
 <button onclick='account.html'>Accounts</button>
 </form>
+<div align="right">
+<form action="logout">
+<button onclick='logout.html'>Logout</button>
+</form>
+</div>
 <div align ="center">
 <form action="admin" method="get"> 
 Search Users By 
@@ -31,7 +36,22 @@ Search Users By
 <button name="type" type="submit" value="all">All Users</button>
 </form>
 <br/>
-
+<form action="admin" method="post">
+<input type="hidden" name="_method" value="PUT"/>
+<h1>Update Account</h1>
+Enter User ID <input type ="text" name="userId"><br/>
+Enter Username<input type="text" name="username" ><br/>
+Enter Password<input type="password" name="password" ><br/>
+Enter FirstName<input type="text" name="fname" ><br/>
+Enter LastName<input type="text" name="lname" ><br/>
+Enter Email<input type="email" name="email" ><br/>
+Enter Role<select name="role">
+<option value =3>Admin</option>
+<option value =2>Employee</option>
+<option value =1>Standard</option>
+</select><br/>
+<input type="submit" value="Update User"></input>
+</form>
 </div>
 </body>
 </html>

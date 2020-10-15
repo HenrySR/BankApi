@@ -45,7 +45,9 @@ public class Transfer extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		try {
 			
-			account.transfer(Double.parseDouble(request.getParameter("amount")), Integer.parseInt(request.getParameter("id1")),Integer.parseInt(request.getParameter("id2")), user);
+			if(account.transfer(Double.parseDouble(request.getParameter("amount")), Integer.parseInt(request.getParameter("id1")),Integer.parseInt(request.getParameter("id2")), user)!=0) {
+				out.print("$"+Double.parseDouble(request.getParameter("amount"))+" has been transfered from Account "+Integer.parseInt(request.getParameter("id1"))+" to Account "+Integer.parseInt(request.getParameter("id1")));
+			}
 		}
 		catch(BusinessException | NumberFormatException e) {
 			out.print("<center><span style='color:red;'>"+e.getMessage()+"</span></center>");

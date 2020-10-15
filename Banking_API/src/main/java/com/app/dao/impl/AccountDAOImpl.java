@@ -204,8 +204,14 @@ public class AccountDAOImpl implements AccountDAO {
 		List<Account> AccountList=new ArrayList<>();
 		try(Connection connection = MySqlConnection.getConnection()){
 			String sql ="SELECT id, userId, balance, state, type FROM accounts where id = ?"	;
+			if(user.getRole().getRoleId()==1) {
+				sql ="SELECT id, userId, balance, state, type FROM accounts where id = ? and userId=?";
+			}
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 				preparedStatement.setInt(1,id);
+				if(user.getRole().getRoleId()==1) {
+					preparedStatement.setInt(1,user.getUserId());
+				}
 				ResultSet resultSet=preparedStatement.executeQuery();
 				while(resultSet.next()) {
 					Account account = new Account();
@@ -236,9 +242,16 @@ public class AccountDAOImpl implements AccountDAO {
 	public List<Account> findAccountByStatus(User user, AccountStatus status) throws BusinessException {
 		List<Account> AccountList=new ArrayList<>();
 		try(Connection connection = MySqlConnection.getConnection()){
+			
 			String sql ="SELECT id, userId, balance, state, type FROM accounts where state = ?";
+			if(user.getRole().getRoleId()==1) {
+				sql ="SELECT id, userId, balance, state, type FROM accounts where state = ? and userId = ?";
+			}
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 				preparedStatement.setString(1,status.getStatus());
+				if(user.getRole().getRoleId()==1) {
+					preparedStatement.setInt(2, user.getUserId());
+				}
 				ResultSet resultSet=preparedStatement.executeQuery();
 				while(resultSet.next()) {
 					Account account = new Account();

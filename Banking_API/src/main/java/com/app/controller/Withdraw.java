@@ -40,13 +40,16 @@ public class Withdraw extends HttpServlet {
 		}
 		else {
 		User user =(User) session.getAttribute("user");
+		System.out.println(user.toString());
 		AccountDAO account = new AccountDAOImpl();
 		RequestDispatcher requestDispatcher=null;
 		
 		PrintWriter out = response.getWriter();
 		try {
 			
-			account.withdraw(Double.parseDouble(request.getParameter("amount")), Integer.parseInt(request.getParameter("id")),user);
+			if(account.withdraw(Double.parseDouble(request.getParameter("amount")), Integer.parseInt(request.getParameter("id")),user)!=0) {
+				out.print("$"+Double.parseDouble(request.getParameter("amount"))+" has been withdrawn from Account "+Integer.parseInt(request.getParameter("id")));
+			}
 		}
 		catch(BusinessException | NumberFormatException e) {
 			out.print("<center><span style='color:red;'>"+e.getMessage()+"</span></center>");

@@ -45,7 +45,9 @@ public class Deposit extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		try {
-			account.deposit(Double.parseDouble(request.getParameter("amount")), Integer.parseInt(request.getParameter("id")),user);
+			if(account.deposit(Double.parseDouble(request.getParameter("amount")), Integer.parseInt(request.getParameter("id")),user)!=0) {
+				out.print("$"+Double.parseDouble(request.getParameter("amount"))+" has been deposited in Account "+Integer.parseInt(request.getParameter("id")));
+			}
 		}
 		catch(BusinessException | NumberFormatException e) {
 			out.print("<center><span style='color:red;'>"+e.getMessage()+"</span></center>");

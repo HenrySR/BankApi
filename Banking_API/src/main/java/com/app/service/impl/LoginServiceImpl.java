@@ -13,7 +13,7 @@ public class LoginServiceImpl implements LoginService {
 		LoginDAO dao = new LoginDAOImpl();
 		boolean b = false;
 		
-		if(user!=null && user.getUsername()!=null && user.getPassword()!=null && user.getUsername().matches("^[A-Za-z0-9]([._])|[A-Za-z0-9]{4,18}[A-Za-z0-9]") /*&& user.getPassword().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\\\S+$).{8, 20}$")*/) {
+		if(user!=null && user.getUsername()!=null && user.getPassword()!=null /*&& user.getUsername().matches("^[A-Za-z0-9]([._])|[A-Za-z0-9]{4,18}[A-Za-z0-9]") && user.getPassword().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\\\S+$).{8, 20}$")*/) {
 			b=dao.isValidUser(user);
 			
 		}else {

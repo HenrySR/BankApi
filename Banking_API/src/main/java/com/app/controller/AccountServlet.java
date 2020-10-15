@@ -58,7 +58,9 @@ public class AccountServlet extends HttpServlet {
 			String type = request.getParameter("type");
 			switch(type) {
 			case "all":
+				if(user.getRole().getRoleId()!=1) {
 				accountList = account.findAccounts(user);
+				}
 				break;
 			case "id":
 				accountList = account.findAccountById(user,Integer.parseInt(request.getParameter("search")));
@@ -75,8 +77,6 @@ public class AccountServlet extends HttpServlet {
 				accountList = account.findAccountByUserId(newUser);
 				break;
 			}
-			System.out.println(type);
-			System.out.println(request.getParameter("search"));
 			for(Account a:accountList) {
 				out.print("<h4>User Account "+a.toString()+"</h4>");
 			}
@@ -140,11 +140,14 @@ public class AccountServlet extends HttpServlet {
 			response.sendError(401,"Invalid Credentials");
 		}
 		else {
+			
 		User user =(User) session.getAttribute("user");
+		PrintWriter out = response.getWriter();
+		if(user.getRole().getRoleId()==3){
 		AccountDAO account = new AccountDAOImpl();
 		User newUser = new User();
 		RequestDispatcher requestDispatcher=null;
-		PrintWriter out = response.getWriter();
+		
 		requestDispatcher=request.getRequestDispatcher("account.html");
 		requestDispatcher.include(request, response);
 		try {
@@ -152,7 +155,7 @@ public class AccountServlet extends HttpServlet {
 			if(user.getRole().getRoleId()!=1) {
 				newUser.setUserId(Integer.parseInt(request.getParameter("userId")));
 			}
-			Account newAccount = new Account();System.out.println("2");
+			Account newAccount = new Account();
 			newAccount.setBalance(Double.parseDouble(request.getParameter("balance")));
 			AccountType type = new AccountType(request.getParameter("btype"));
 			newAccount.setType(type);
@@ -168,6 +171,11 @@ public class AccountServlet extends HttpServlet {
 		}
 		
 	}
+		RequestDispatcher requestDispatcher=null;	
+		requestDispatcher=request.getRequestDispatcher("account.html");
+		requestDispatcher.include(request, response);
+		out.print("<center><span style='color:red;'> This is admin only </span></center>");
+		}
 	}
 
 }

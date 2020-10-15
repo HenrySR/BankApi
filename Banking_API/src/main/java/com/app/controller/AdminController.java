@@ -12,9 +12,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.app.account.Account;
+import com.app.account.AccountStatus;
+import com.app.account.AccountType;
+import com.app.dao.AccountDAO;
 import com.app.dao.SearchDAO;
+import com.app.dao.UpdateUserDAO;
+import com.app.dao.impl.AccountDAOImpl;
 import com.app.dao.impl.SearchDAOImpl;
+import com.app.dao.impl.UpdateUserDAOImpl;
 import com.app.exception.BusinessException;
+import com.app.model.Role;
 import com.app.model.User;
 import com.app.service.Search;
 import com.app.service.impl.SearchImpl;
@@ -45,9 +53,9 @@ public class AdminController extends HttpServlet {
 		}
 		else {	
 		User user =(User) session.getAttribute("user");
-		if(user.getRole().getRoleId()!=1) {
 		RequestDispatcher requestDispatcher=null;
 		PrintWriter out=response.getWriter();
+		if(user.getRole().getRoleId()!=1) {
 		
 			try {
 				SearchDAO search = new SearchDAOImpl();
@@ -101,22 +109,99 @@ public class AdminController extends HttpServlet {
 				out.print("<center><span style='color:red;'> Please Enter a number for Id </span></center>");
 			}
 			}
+		else {
+			try {
+				SearchDAO search = new SearchDAOImpl();
+				String type= request.getParameter("type");
+				requestDispatcher=request.getRequestDispatcher("standard.html");
+				requestDispatcher.include(request, response);
+				switch(type) {
+				case "all":
+					List<User> userList4 = search.searchId(user.getUserId());
+					for(User u:userList4) {
+						out.print("<h4>User List "+u.toString()+"</h4>");
+					}
+					break;
+				}
+				
+				
+				
+			} catch (BusinessException e) {
+//				requestDispatcher=request.getRequestDispatcher("admin");
+//				requestDispatcher.include(request, response);
+				out.print("<center><span style='color:red;'>"+e.getMessage()+"</span></center>");
+			}
+			catch(NumberFormatException e) {
+//				requestDispatcher=request.getRequestDispatcher("admin.html");
+//				requestDispatcher.include(request, response);
+				out.print("<center><span style='color:red;'> Please Enter a number for Id </span></center>");
+			}
+			}
+		}
 			
 	}
-	}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		if(request.getParameter("_method").equalsIgnoreCase("PUT")){
+			doPut(request,response);
+		}
 	}
 
 	/**
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		HttpSession session=request.getSession(false);
+		if(session==null) {
+			response.sendError(401,"Invalid Credentials");
+		}
+		else {
+		User user =(User) session.getAttribute("user");
+		UpdateUserDAO update = new UpdateUserDAOImpl();
+		User newUser = new User();
+		RequestDispatcher requestDispatcher=null;
+		PrintWriter out = response.getWriter();
+		if(user.getRole().getRoleId() ==1) {
+		requestDispatcher=request.getRequestDispatcher("standard.html");
+		requestDispatcher.include(request, response);}
+		if(user.getRole().getRoleId() ==3) {
+			requestDispatcher=request.getRequestDispatcher("admin.html");
+			requestDispatcher.include(request, response);}
+		try {
+			newUser.setUserId(user.getUserId());
+			if(user.getRole().getRoleId()!=1) {
+				newUser.setUserId(Integer.parseInt(request.getParameter("userId")));
+			}
+			
+			newUser.setUsername(request.getParameter("username"));
+			newUser.setPassword(request.getParameter("password"));
+			newUser.setFirstName(request.getParameter("fname"));
+			newUser.setLastName(request.getParameter("lname"));
+			newUser.setEmail(request.getParameter("email"));
+			
+			Role role = new Role(Integer.parseInt(request.getParameter("role")));
+			newUser.setRole(role);
+			if(user.getRole().getRoleId()==1) {
+				Role role1 = new Role(1);
+				newUser.setRole(role1);
+			}
+			if(user.getRole().getRoleId()==2) {
+				Role role2 = new Role(2);
+				newUser.setRole(role2);
+			}
+			update.updateUser(newUser);
+			out.print(newUser.toString());
+			
+		} catch (BusinessException | NumberFormatException e) {
+			
+			out.print("<center><span style='color:red;'>"+e.getMessage()+"</span></center>");
+		}
+		
+	}
 	}
 
 	/**

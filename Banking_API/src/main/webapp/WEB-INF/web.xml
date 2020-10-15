@@ -23,6 +23,7 @@
   <servlet-mapping>
     <servlet-name>AdminController</servlet-name>
     <url-pattern>/admin</url-pattern>
+    <url-pattern>/standard</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -64,7 +65,7 @@
     <servlet-name>Deposit</servlet-name>
     <url-pattern>/deposit</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <description></description>
     <display-name>Transfer</display-name>
     <servlet-name>Transfer</servlet-name>
@@ -73,5 +74,15 @@
   <servlet-mapping>
     <servlet-name>Transfer</servlet-name>
     <url-pattern>/transfer</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Logout</display-name>
+    <servlet-name>Logout</servlet-name>
+    <servlet-class>com.app.controller.Logout</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Logout</servlet-name>
+    <url-pattern>/logout</url-pattern>
   </servlet-mapping>
 </web-app>
